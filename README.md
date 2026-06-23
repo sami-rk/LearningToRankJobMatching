@@ -77,8 +77,8 @@ scikit-learn>=1.3
 # Install dependencies
 pip install -r requirements.txt
 
-# From the task3 directory
-python pipeline.py
+# From the project root directory (one level above task3/)
+python -m task3.pipeline
 ```
 
 The pipeline will:
@@ -90,6 +90,18 @@ The pipeline will:
 5. Run 5-fold GroupKFold cross-validation and print NDCG@10 / MAP@5
 6. Train a final model on the full training set
 7. Predict scores on the test set and save `task3_submission.csv`
+
+## Results
+
+| Dataset | Shape |
+|---|---|
+| X_train | 118,772 × 26 |
+| X_test | 52,700 × 26 |
+
+| Metric | Score |
+|---|---|
+| NDCG@10 | 0.8463 |
+| MAP@5 | 0.6589 |
 
 ## Output
 

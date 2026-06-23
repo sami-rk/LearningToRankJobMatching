@@ -5,10 +5,7 @@ SEED = 42
 np.random.seed(SEED)
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
-_DATA_DIR = os.path.normpath(
-    os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                 "..", "Datasets", "task 3 - datasets")
-)
+_DATA_DIR = os.path.join(os.path.dirname(__file__), "datasets")
 
 JOBS_PATH = os.path.join(_DATA_DIR, "jobs.csv")
 CANDIDATES_PATH = os.path.join(_DATA_DIR, "candidates.csv")
