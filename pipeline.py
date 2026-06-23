@@ -56,3 +56,6 @@ def run() -> None:
     submission = test_feat[["application_id", "score"]].sort_values("application_id")
     submission.to_csv(SUBMISSION_PATH, index=False)
     print(f"\nSubmission saved → {SUBMISSION_PATH}")
+
+if __name__ == "__main__":
+    run()
