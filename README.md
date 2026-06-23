@@ -6,21 +6,26 @@ A machine learning pipeline that predicts relevance scores between job postings 
 
 ```
 task3/
-├── __main__.py            # Entry point (python -m task3)
+├── __init__.py            # Package marker
 ├── config.py              # Paths, feature list, model hyperparameters
-├── pipeline.py            # End-to-end orchestration
+├── pipeline.py            # End-to-end orchestration (entry point)
 ├── data/
+│   ├── __init__.py
 │   └── loader.py          # CSV data loading
 ├── preprocessing/
+│   ├── __init__.py
 │   ├── jobs.py            # Salary normalization, categorical encoding, skill parsing
 │   └── candidates.py      # Education, experience, skill preprocessing
 ├── features/
+│   ├── __init__.py
 │   ├── parsers.py         # Utility parsers (skills, seniority, education, etc.)
 │   ├── interactions.py    # Skill overlap, experience gap, salary/compatibility features
 │   └── encoding.py        # Out-of-fold target encoding for industry
 ├── models/
+│   ├── __init__.py
 │   └── ranker.py          # GradientBoostingRegressor with GroupKFold CV
 ├── evaluation/
+│   ├── __init__.py
 │   └── metrics.py         # NDCG@10 and MAP@5 evaluation metrics
 └── datasets/              # Raw input data (CSV files)
     ├── jobs.csv
@@ -69,8 +74,11 @@ scikit-learn>=1.3
 ## Usage
 
 ```bash
-# From the project root directory (one level above task3/)
-python -m task3
+# Install dependencies
+pip install -r requirements.txt
+
+# From the task3 directory
+python pipeline.py
 ```
 
 The pipeline will:
@@ -86,9 +94,3 @@ The pipeline will:
 ## Output
 
 The pipeline produces `task3_submission.csv` with columns `application_id` and `score`, sorted by application ID.
-
-## Student IDs
-
-- 810103482
-- 810103601
-- 810103434
