@@ -116,8 +116,8 @@ LIGHTGBM_PARAMS = dict(
 )
 
 CATBOOST_PARAMS = dict(
-    iterations=200,
-    learning_rate=0.05,
+    iterations=300,
+    learning_rate=0.1606,
     depth=5,
     loss_function="YetiRank",
     random_seed=SEED,
