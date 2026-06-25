@@ -95,11 +95,11 @@ MODEL_PARAMS = dict(
 
 XGBOOST_PARAMS = dict(
     objective="rank:ndcg",
-    n_estimators=200,
-    learning_rate=0.05,
+    n_estimators=477,
+    learning_rate=0.1212,
     max_depth=5,
-    subsample=0.8,
-    colsample_bytree=0.8,
+    subsample=0.8801,
+    colsample_bytree=0.7249,
     random_state=SEED,
     verbosity=0,
 )
