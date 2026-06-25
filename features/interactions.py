@@ -6,7 +6,7 @@ def build_features(df: pd.DataFrame, jobs: pd.DataFrame, candidates: pd.DataFram
 
     Returns a new DataFrame (never mutates the inputs).
     """
-    from task3.config import JOB_COLS, CAND_COLS
+    from LearningToRankJobMatching.config import JOB_COLS, CAND_COLS
 
     df = df.copy()
     df = df.merge(jobs[JOB_COLS], on="job_id", how="left")

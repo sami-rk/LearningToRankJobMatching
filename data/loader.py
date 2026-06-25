@@ -1,6 +1,6 @@
 import pandas as pd
 
-from task3.config import JOBS_PATH, CANDIDATES_PATH, TRAIN_PATH, TEST_PATH
+from LearningToRankJobMatching.config import JOBS_PATH, CANDIDATES_PATH, TRAIN_PATH, TEST_PATH
 
 
 def load_datasets() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:

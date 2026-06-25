@@ -1,7 +1,7 @@
 import pandas as pd
 
-from task3.config import CURRENCY_TO_USD
-from task3.features.parsers import parse_remote, parse_size, parse_skills, seniority
+from LearningToRankJobMatching.config import CURRENCY_TO_USD
+from LearningToRankJobMatching.features.parsers import parse_remote, parse_size, parse_skills, seniority
 
 
 def preprocess_jobs(jobs: pd.DataFrame) -> pd.DataFrame:

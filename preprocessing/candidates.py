@@ -1,6 +1,6 @@
 import pandas as pd
 
-from task3.features.parsers import parse_edu, parse_eng, parse_skills, seniority
+from LearningToRankJobMatching.features.parsers import parse_edu, parse_eng, parse_skills, seniority
 
 
 def preprocess_candidates(candidates: pd.DataFrame) -> pd.DataFrame:

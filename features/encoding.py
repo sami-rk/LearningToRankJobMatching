@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import GroupKFold
 
-from task3.config import N_SPLITS
+from LearningToRankJobMatching.config import N_SPLITS
 
 
 def oof_target_encode(
