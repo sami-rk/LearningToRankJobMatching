@@ -18,7 +18,7 @@ from LearningToRankJobMatching.models.ranker import cross_validate_all, train_fi
 from LearningToRankJobMatching.evaluation.visuals import generate_all_plots
 
 
-def run(force_retrain: bool = False) -> None:
+def run() -> None:
     """End-to-end pipeline."""
 
     # 1 -- Load ----------------------------------------------------------------
@@ -46,7 +46,7 @@ def run(force_retrain: bool = False) -> None:
     print(f"\nX_train: {X_train.shape} | X_test: {X_test.shape}\n")
 
     # 6 -- Cross-validate all models -------------------------------------------
-    results = cross_validate_all(X_train, y_train, groups, force_retrain=force_retrain)
+    results = cross_validate_all(X_train, y_train, groups)
 
     # 7 -- Generate comparison plots --------------------------------------------
     generate_all_plots(results)
@@ -56,7 +56,7 @@ def run(force_retrain: bool = False) -> None:
     best_model_name = results.loc[best_idx, "model"]
     print(f"\nBest model: {best_model_name} (NDCG@10: {results.loc[best_idx, 'ndcg10_mean']:.4f})")
 
-    model = train_final_model(best_model_name, X_train, y_train, groups, force_retrain=force_retrain)
+    model = train_final_model(best_model_name, X_train, y_train, groups)
 
     # 9 -- Predict & save ------------------------------------------------------
     test_feat["score"] = predict(model, X_test)

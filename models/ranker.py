@@ -253,7 +253,6 @@ def cross_validate_all(
     X: np.ndarray,
     y: np.ndarray,
     groups: np.ndarray,
-    force_retrain: bool = False,
 ) -> pd.DataFrame:
     """Cross-validate all registered models and return results DataFrame."""
     from LearningToRankJobMatching.config import MODEL_REGISTRY
@@ -263,7 +262,7 @@ def cross_validate_all(
 
     for model_name in tqdm(model_names, desc="Models", unit="model"):
 
-        if has_cached_cv(model_name) and not force_retrain:
+        if has_cached_cv(model_name) and not ask_retrain(model_name):
             result = load_cv_results(model_name)
             print(f"\n  Loaded cached CV for {model_name}")
         else:
@@ -290,12 +289,11 @@ def train_final_model(
     X: np.ndarray,
     y: np.ndarray,
     groups: np.ndarray = None,
-    force_retrain: bool = False,
 ) -> BaseRanker:
     """Train the best model on full training data. Checks cache first."""
     from LearningToRankJobMatching.config import MODEL_REGISTRY
 
-    if has_cached_model(model_name) and not force_retrain:
+    if has_cached_model(model_name) and not ask_retrain(model_name):
         print(f"  Loading cached {model_name} model...")
         return load_model(model_name)
 
