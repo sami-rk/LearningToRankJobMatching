@@ -13,6 +13,9 @@ TRAIN_PATH = os.path.join(_DATA_DIR, "applications_train.csv")
 TEST_PATH = os.path.join(_DATA_DIR, "applications_test.csv")
 SUBMISSION_PATH = "task3_submission.csv"
 
+# ── Model cache ───────────────────────────────────────────────────────────────
+MODEL_CACHE_DIR = os.path.join(os.path.dirname(__file__), "model_cache")
+
 # ── Currency → USD rates ──────────────────────────────────────────────────────
 CURRENCY_TO_USD = {"USD": 1.0, "EUR": 1.08, "IRR": 0.000024}
 
@@ -89,3 +92,41 @@ MODEL_PARAMS = dict(
     subsample=0.8,
     random_state=SEED,
 )
+
+XGBOOST_PARAMS = dict(
+    objective="rank:ndcg",
+    n_estimators=200,
+    learning_rate=0.05,
+    max_depth=5,
+    subsample=0.8,
+    colsample_bytree=0.8,
+    random_state=SEED,
+    verbosity=0,
+)
+
+LIGHTGBM_PARAMS = dict(
+    objective="lambdarank",
+    n_estimators=200,
+    learning_rate=0.05,
+    num_leaves=31,
+    subsample=0.8,
+    colsample_bytree=0.8,
+    random_state=SEED,
+    verbose=-1,
+)
+
+CATBOOST_PARAMS = dict(
+    iterations=200,
+    learning_rate=0.05,
+    depth=5,
+    loss_function="YetiRank",
+    random_seed=SEED,
+    verbose=0,
+)
+
+MODEL_REGISTRY = {
+    "GradientBoosting": ("GradientBoostingRanker", MODEL_PARAMS),
+    "XGBoost": ("XGBoostRanker", XGBOOST_PARAMS),
+    "LightGBM": ("LightGBMRanker", LIGHTGBM_PARAMS),
+    "CatBoost": ("CatBoostRanker", CATBOOST_PARAMS),
+}
