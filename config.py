@@ -85,11 +85,11 @@ N_SPLITS = 5
 
 # ── Model hyper-parameters ────────────────────────────────────────────────────
 MODEL_PARAMS = dict(
-    n_estimators=200,
-    learning_rate=0.05,
-    max_depth=5,
-    min_samples_leaf=20,
-    subsample=0.8,
+    n_estimators=322,
+    learning_rate=0.1193,
+    max_depth=4,
+    min_samples_leaf=34,
+    subsample=0.9032,
     random_state=SEED,
 )
 
