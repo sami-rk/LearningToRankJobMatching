@@ -106,11 +106,11 @@ XGBOOST_PARAMS = dict(
 
 LIGHTGBM_PARAMS = dict(
     objective="lambdarank",
-    n_estimators=200,
-    learning_rate=0.05,
-    num_leaves=31,
-    subsample=0.8,
-    colsample_bytree=0.8,
+    n_estimators=319,
+    learning_rate=0.0774,
+    num_leaves=22,
+    subsample=0.8979,
+    colsample_bytree=0.987,
     random_state=SEED,
     verbose=-1,
 )
