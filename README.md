@@ -63,8 +63,6 @@ The model uses 26 engineered features:
 
 ## 🤖 Models Compared
 
-The pipeline compares four learning-to-rank approaches:
-
 | Model | Approach | Objective | Description |
 |---|---|---|---|
 | **GradientBoosting** | Pointwise | Regression | Baseline — predicts relevance scores directly |
@@ -117,72 +115,19 @@ The pipeline compares four learning-to-rank approaches:
 
 *Box plots showing per-fold metric variance for each model — lower variance indicates more stable performance.*
 
-### 🕸️ Radar Chart
-
-![Radar Chart](output/radar_chart.png)
-
-*Spider/radar chart for multi-metric comparison across models.*
-
 ## 🔬 Hyperparameter Finetuning
 
-The project includes a standalone finetuning tool (`finetune.py`) that uses random search to optimize hyperparameters for each model.
+The `finetune.py` tool uses random search to optimize hyperparameters across all four models.
 
-### How It Works
+```bash
+# Finetune all models (20 trials each)
+python -m finetune
 
-1. Establishes a **baseline** using default hyperparameters
-2. Samples `N` random parameter combinations from predefined search spaces
-3. Cross-validates each trial with GroupKFold
-4. Tracks the best configuration per model
-5. Generates comparison plots and saves results as JSON
+# Finetune specific models
+python -m finetune --models XGBoost LightGBM --trials 50
+```
 
-### 🔍 Search Spaces
-
-| Model | Parameter | Range |
-|---|---|---|
-| **GradientBoosting** | n_estimators | 100 – 500 |
-| | learning_rate | 0.01 – 0.2 (log) |
-| | max_depth | 3 – 8 |
-| | min_samples_leaf | 5 – 50 |
-| | subsample | 0.6 – 1.0 |
-| **XGBoost** | n_estimators | 100 – 500 |
-| | learning_rate | 0.01 – 0.2 (log) |
-| | max_depth | 3 – 8 |
-| | subsample | 0.6 – 1.0 |
-| | colsample_bytree | 0.6 – 1.0 |
-| **LightGBM** | n_estimators | 100 – 500 |
-| | learning_rate | 0.01 – 0.2 (log) |
-| | num_leaves | 15 – 63 |
-| | subsample | 0.6 – 1.0 |
-| | colsample_bytree | 0.6 – 1.0 |
-| **CatBoost** | iterations | 100 – 500 |
-| | learning_rate | 0.01 – 0.2 (log) |
-| | depth | 3 – 8 |
-
-### 📊 Finetuning Results
-
-#### Baseline vs Best Tuned
-
-![Baseline vs Tuned](finetune_output/baseline_vs_tuned.png)
-
-*Bar chart comparing baseline (default) vs best finetuned NDCG@10 and MAP@5 for each model.*
-
-#### Finetuning Progress
-
-![Finetuning Progress](finetune_output/finetuning_progress.png)
-
-*Line plot showing NDCG@10 improvement across random search trials per model.*
-
-#### Parameter Sensitivity
-
-![Parameter Sensitivity](finetune_output/param_sensitivity.png)
-
-*Scatter plots showing how each hyperparameter value affects NDCG@10 performance.*
-
-#### Summary Table
-
-![Finetune Summary](finetune_output/finetune_summary.png)
-
-*Summary table with improvements and best configurations for each model.*
+Each model's search space covers key hyperparameters (n_estimators, learning_rate, max_depth, etc.) with 20 random trials. Best configurations are saved to `finetune_output/`.
 
 ## 📋 Requirements
 
@@ -222,19 +167,6 @@ The pipeline will:
 7. 📈 Generate comparison plots in `output/`
 8. 🏆 Train the best model on the full training set
 9. 💾 Predict scores on the test set and save `task3_submission.csv`
-
-### Running Finetuning
-
-```bash
-# Finetune all models (20 trials each)
-python -m finetune
-
-# Finetune specific models with more trials
-python -m finetune --models XGBoost LightGBM --trials 50
-
-# Use a different random seed
-python -m finetune --seed 123 --trials 30
-```
 
 ## 📤 Output
 
