@@ -78,15 +78,50 @@ The pipeline compares four learning-to-rank approaches:
 - **Metrics**: NDCG@10, MAP@5
 - **Best model**: Selected by highest mean NDCG@10 across folds, used for final submission
 
-## 📈 Visualizations
+## 📊 Results
 
-The pipeline generates three comparison plots in the `output/` directory:
-
-| Plot | Description |
+| Dataset | Shape |
 |---|---|
-| `metric_comparison.png` | Grouped bar chart with NDCG@10 and MAP@5 per model (with error bars) |
-| `fold_distribution.png` | Box plots showing per-fold metric variance for each model |
-| `radar_chart.png` | Spider/radar chart for multi-metric comparison across models |
+| X_train | 118,772 × 26 |
+| X_test | 52,700 × 26 |
+
+### 🏆 Final Model Performance (After Finetuning)
+
+| Rank | Model | NDCG@10 | MAP@5 | vs Baseline |
+|---|---|---|---|---|
+| 🥇 | **CatBoost** | **0.8516 ± 0.0029** | **0.6678 ± 0.0113** | +0.0031 |
+| 🥈 | **GradientBoosting** | 0.8500 ± 0.0026 | 0.6661 ± 0.0131 | +0.0032 |
+| 🥉 | **LightGBM** | 0.8491 ± — | — | +0.0017 |
+| 4th | **XGBoost** | 0.8484 ± — | — | +0.0071 |
+
+> **CatBoost** achieves the best NDCG@10 (0.8516) with the YetiRank listwise objective. XGBoost showed the largest improvement from finetuning (+0.0071).
+
+### 📐 Best Hyperparameters
+
+| Model | Parameters |
+|---|---|
+| **CatBoost** | `iterations=300, learning_rate=0.1606, depth=5` |
+| **GradientBoosting** | `n_estimators=322, learning_rate=0.1193, max_depth=4, min_samples_leaf=34, subsample=0.9032` |
+| **LightGBM** | `n_estimators=319, learning_rate=0.0774, num_leaves=22, subsample=0.8979, colsample_bytree=0.987` |
+| **XGBoost** | `n_estimators=477, learning_rate=0.1212, max_depth=5, subsample=0.8801, colsample_bytree=0.7249` |
+
+### 📈 Model Comparison
+
+![Metric Comparison](output/metric_comparison.png)
+
+*Grouped bar chart comparing NDCG@10 and MAP@5 across all four models with error bars.*
+
+### 📉 Fold Distribution
+
+![Fold Distribution](output/fold_distribution.png)
+
+*Box plots showing per-fold metric variance for each model — lower variance indicates more stable performance.*
+
+### 🕸️ Radar Chart
+
+![Radar Chart](output/radar_chart.png)
+
+*Spider/radar chart for multi-metric comparison across models.*
 
 ## 🔬 Hyperparameter Finetuning
 
@@ -100,7 +135,7 @@ The project includes a standalone finetuning tool (`finetune.py`) that uses rand
 4. Tracks the best configuration per model
 5. Generates comparison plots and saves results as JSON
 
-### Search Spaces
+### 🔍 Search Spaces
 
 | Model | Parameter | Range |
 |---|---|---|
@@ -123,16 +158,31 @@ The project includes a standalone finetuning tool (`finetune.py`) that uses rand
 | | learning_rate | 0.01 – 0.2 (log) |
 | | depth | 3 – 8 |
 
-### Finetuning Output
+### 📊 Finetuning Results
 
-The tool generates four plots in `finetune_output/`:
+#### Baseline vs Best Tuned
 
-| Plot | Description |
-|---|---|
-| `baseline_vs_tuned.png` | 📊 Bar chart comparing baseline vs best tuned NDCG@10 and MAP@5 per model |
-| `finetuning_progress.png` | 📉 Line plot showing NDCG@10 improvement across trials |
-| `param_sensitivity.png` | 🔍 Scatter plots showing how each hyperparameter affects performance |
-| `finetune_summary.png` | 📋 Summary table with improvements and best configurations |
+![Baseline vs Tuned](finetune_output/baseline_vs_tuned.png)
+
+*Bar chart comparing baseline (default) vs best finetuned NDCG@10 and MAP@5 for each model.*
+
+#### Finetuning Progress
+
+![Finetuning Progress](finetune_output/finetuning_progress.png)
+
+*Line plot showing NDCG@10 improvement across random search trials per model.*
+
+#### Parameter Sensitivity
+
+![Parameter Sensitivity](finetune_output/param_sensitivity.png)
+
+*Scatter plots showing how each hyperparameter value affects NDCG@10 performance.*
+
+#### Summary Table
+
+![Finetune Summary](finetune_output/finetune_summary.png)
+
+*Summary table with improvements and best configurations for each model.*
 
 ## 📋 Requirements
 
@@ -185,33 +235,6 @@ python -m finetune --models XGBoost LightGBM --trials 50
 # Use a different random seed
 python -m finetune --seed 123 --trials 30
 ```
-
-## 📊 Results
-
-| Dataset | Shape |
-|---|---|
-| X_train | 118,772 × 26 |
-| X_test | 52,700 × 26 |
-
-### Model Performance (After Finetuning)
-
-| Model | NDCG@10 | MAP@5 | Improvement |
-|---|---|---|---|
-| 🥇 **CatBoost** | **0.8516** | — | +0.0031 |
-| 🥈 **GradientBoosting** | 0.8500 | — | +0.0032 |
-| 🥉 **LightGBM** | 0.8491 | — | +0.0017 |
-| **XGBoost** | 0.8484 | — | +0.0071 |
-
-> All models benefited from hyperparameter finetuning. XGBoost showed the largest improvement (+0.0071).
-
-### Best Hyperparameters
-
-| Model | Key Parameters |
-|---|---|
-| **CatBoost** | iterations=300, learning_rate=0.1606, depth=5 |
-| **GradientBoosting** | n_estimators=322, learning_rate=0.1193, max_depth=4, min_samples_leaf=34, subsample=0.9032 |
-| **LightGBM** | n_estimators=319, learning_rate=0.0774, num_leaves=22, subsample=0.8979, colsample_bytree=0.987 |
-| **XGBoost** | n_estimators=477, learning_rate=0.1212, max_depth=5, subsample=0.8801, colsample_bytree=0.7249 |
 
 ## 📤 Output
 
