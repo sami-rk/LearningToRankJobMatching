@@ -56,7 +56,7 @@ def run() -> None:
     best_model_name = results.loc[best_idx, "model"]
     print(f"\nBest model: {best_model_name} (NDCG@10: {results.loc[best_idx, 'ndcg10_mean']:.4f})")
 
-    model = train_final_model(best_model_name, X_train, y_train, groups)
+    model = train_final_model(best_model_name, X_train, y_train, groups, force_retrain=True)
 
     # 9 -- Predict & save ------------------------------------------------------
     test_feat["score"] = predict(model, X_test)

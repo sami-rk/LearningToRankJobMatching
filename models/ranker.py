@@ -289,11 +289,12 @@ def train_final_model(
     X: np.ndarray,
     y: np.ndarray,
     groups: np.ndarray = None,
+    force_retrain: bool = False,
 ) -> BaseRanker:
     """Train the best model on full training data. Checks cache first."""
     from LearningToRankJobMatching.config import MODEL_REGISTRY
 
-    if has_cached_model(model_name) and not ask_retrain(model_name):
+    if has_cached_model(model_name) and not force_retrain:
         print(f"  Loading cached {model_name} model...")
         return load_model(model_name)
 
