@@ -1,4 +1,4 @@
-# 🎯 Task 3 — Learning-to-Rank for Job-Candidate Matching
+# 🎯 Learning-to-Rank for Job-Candidate Matching
 
 A machine learning pipeline that predicts relevance scores between job postings and candidate profiles, ranking candidates for each job opening.
 
