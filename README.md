@@ -144,7 +144,7 @@ tqdm>=4.65
 joblib>=1.3
 ```
 
-## 🚀 Usage
+## 🚀   Usage
 
 ### Running the Pipeline
 
